@@ -4,7 +4,7 @@ pipeline {
     environment {
         PYTHON_HOME = "C:\\Python"
         PYTHON = "C:\\Python\\python.exe"
-        PIP = "C:\\Python\\pip.exe"
+        PIP = "C:\\Python\\Scripts\\pip.exe"
     }
 
     stages {
@@ -16,7 +16,8 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                bat "\"%PIP%\" install -r requirements.txt"
+                bat "\"%PYTHON%\" -m pip install --upgrade pip"
+                bat "\"%PYTHON%\" -m pip install -r requirements.txt"
             }
         }
 
