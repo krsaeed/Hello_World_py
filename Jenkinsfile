@@ -1,29 +1,46 @@
 pipeline {
     agent any
-    
     stages{
+        stage('Check Python') { 
+            steps { 
+                withPythonEnv('Python3') {  
+                    bat '%PYTHON% --version' 
+                } 
+            }
+        }
         stage('Clone Repository') {
             steps {
-                git 'https://github.com/krsaeed/Hello_World_py.git'
+                checkout([
+                    $class: 'GitSCM',
+                    branches: [[name: '*/main']],
+                    userRemoteConfigs: [[
+                        url: 'https://github.com/NaveenBonthu/Python_Helloworld1.git',
+                        credentialsId: '520'
+                    ]]
+                ])
             }
         }
-
-        stage('Install Dependencies') {
+        stage ("Install Dependencies"){
             steps {
-                sh 'pip install -r requirements.txt'
+                withPythonEnv('Python3') {
+                    bat '%PYTHON% -m pip install --upgrade pip'
+                    bat '"%PYTHON%" -m pip install -r requirements.txt'
+                }
+
             }
         }
-
-        stage('Run Tests') {
+        stage('Run Test') {
             steps {
-                sh 'pytest || true'
+                withPythonEnv('Python3') {
+                    bat '"%PYTHON%" -m pytest || true'
+                    }
             }
         }
-
         stage('Deploy') {
-            steps {
-                echo 'Starting Flask application...'
-                sh 'nohup python app.py &'
+            steps{
+                withPythonEnv('Python3') {
+                    echo 'Starting Flask application..'
+                    bat 'start /B "%PYTHON%" app.py'}
             }
         }
     }
