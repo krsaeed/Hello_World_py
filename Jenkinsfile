@@ -1,14 +1,14 @@
 pipeline {
     agent any
     stages{
-        
+
         stage('Clone Repository') {
             steps {
                 checkout([
                     $class: 'GitSCM',
                     branches: [[name: '*/main']],
                     userRemoteConfigs: [[
-                        url: 'https://github.com/krsaeed/python-hello-world-ci-cd.git',
+                        url: 'https://github.com/krsaeed/Hello_World_py.git',
                         credentialsId: 'cred_id_git1'
                     ]]
                 ])
