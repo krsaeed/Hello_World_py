@@ -30,7 +30,8 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo "Starting Flask app..."
-                bat "start cmd /c \"%PYTHON%\" app.py"
+                //bat "start cmd /c \"%PYTHON%\" app.py"
+                bat "start /B %PYTHON% app.py"
             }
         }
     }
