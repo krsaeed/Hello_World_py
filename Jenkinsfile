@@ -4,16 +4,22 @@ pipeline {
 
         stage('Clone Repository') {
             steps {
-                checkout([
-                    $class: 'GitSCM',
-                    branches: [[name: '*/main']],
-                    userRemoteConfigs: [[
-                        url: 'https://github.com/krsaeed/Hello_World_py.git',
-                        credentialsId: 'cred_id_git1'
-                    ]]
-                ])
+                git 'https://github.com/krsaeed/Hello_World_py.git'
             }
         }
+        
+//        stage('Clone Repository') {
+//            steps {
+//                checkout([
+//                    $class: 'GitSCM',
+//                    branches: [[name: '*/main']],
+//                    userRemoteConfigs: [[
+//                        url: 'https://github.com/krsaeed/Hello_World_.git',
+//                        credentialsId: 'cred_id_git1'
+//                    ]]
+//                ])
+//            }
+//        }
         stage ("Install Dependencies"){
             steps {
                 withPythonEnv('Python3') {
