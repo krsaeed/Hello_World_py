@@ -1,13 +1,7 @@
 pipeline {
     agent any
     stages{
-        stage('Check Python') { 
-            steps { 
-                withPythonEnv('Python3') {  
-                    bat '%PYTHON% --version' 
-                } 
-            }
-        }
+        
         stage('Clone Repository') {
             steps {
                 checkout([
