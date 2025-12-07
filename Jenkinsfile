@@ -34,5 +34,10 @@ pipeline {
                 bat "start /B %PYTHON% app.py"
             }
         }
+        stage('Check Server') {
+            steps {
+                bat "netstat -ano | findstr :5000"
+            }
+        }
     }
 }
