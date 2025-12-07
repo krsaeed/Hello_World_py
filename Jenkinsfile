@@ -1,6 +1,12 @@
 pipeline {
     agent any
 
+    environment {
+        PYTHON_HOME = "C:\\Python"
+        PYTHON = "C:\\Python\\python.exe"
+        PIP = "C:\\Python\\pip.exe"
+    }
+
     stages {
         stage('Clone Repository') {
             steps {
@@ -10,20 +16,20 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                bat "pip install -r requirements.txt"
+                bat "\"%PIP%\" install -r requirements.txt"
             }
         }
 
         stage('Run Tests') {
             steps {
-                bat "pytest || exit /b 0"
+                bat "\"%PYTHON%\" -m pytest || exit /b 0"
             }
         }
 
         stage('Deploy') {
             steps {
                 echo "Starting Flask app..."
-                bat "start cmd /c python app.py"
+                bat "start cmd /c \"%PYTHON%\" app.py"
             }
         }
     }
