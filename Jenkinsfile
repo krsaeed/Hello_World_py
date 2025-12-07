@@ -8,8 +8,8 @@ pipeline {
                     $class: 'GitSCM',
                     branches: [[name: '*/main']],
                     userRemoteConfigs: [[
-                        url: 'https://github.com/NaveenBonthu/Python_Helloworld1.git',
-                        credentialsId: '520'
+                        url: 'https://github.com/krsaeed/Python_Helloworld1.git',
+                        credentialsId: 'cred_id_git1'
                     ]]
                 ])
             }
