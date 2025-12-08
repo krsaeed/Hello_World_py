@@ -31,7 +31,7 @@ pipeline {
             steps {
                 echo "Starting Flask app..."
                 //bat "start cmd /c \"%PYTHON%\" app.py"
-                bat "start /B %PYTHON% app.py"
+                bat "start \"FlaskApp\" \"%PYTHON%\" app.py"
                 sleep(time: 10, unit: 'SECONDS')   // give time to start
             }
         }
