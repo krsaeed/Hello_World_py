@@ -34,10 +34,16 @@ pipeline {
                 //bat "start cmd /c \"%PYTHON%\" app.py"
                 //bat "start \"FlaskApp\" \"%PYTHON%\" app.py"
                 // Kill any process already running on port 5000
-                bat "for /f \"tokens=5\" %a in ('netstat -ano ^| findstr :5000') do taskkill /PID %a /F"
+                bat '''
+                for /f "tokens=5" %%a in (
+                "cmd /c netstat -ano ^| findstr :5000 ^| findstr LISTENING"
+                ) do taskkill /PID %%a /F
+                '''
 
                 // Start Waitress in background
-                bat "start \"FlaskApp\" /B cmd /c \"%PYTHON%\" -m waitress --host=0.0.0.0 --port=5000 app:app"
+                bat '''
+                start "" /B C:\\Python\\python.exe app.py
+                '''
                 
                 sleep(time: 10, unit: 'SECONDS')   // give time to start
             }
