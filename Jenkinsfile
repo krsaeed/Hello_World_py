@@ -32,13 +32,21 @@ pipeline {
             steps {
                 echo "Starting Flask app with waitress ..."
                 bat '''
-                "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "Get-NetTCPConnection -LocalPort 5000 -State Listen -ErrorAction SilentlyContinue | ForEach-Object { Stop-Process -Id \$_.OwningProcess -Force }"
+                netstat -ano | findstr :5000 > port5000.txt
                 '''
 
                 // Start Waitress server FOREGROUND for 10 seconds only
                 bat '''
-                C:\\Python\\python.exe -m waitress --host=0.0.0.0 --port=5000 app:app
-                ''' &
+                for /f "tokens=5" %%p in (port5000.txt) do (
+                echo Killing PID %%p
+                taskkill /F /PID %%p
+                )
+                del port5000.txt
+                '''
+
+                echo "Starting Flask + Waitress..."
+                bat 'start "" /B C:\\Python\\python.exe app.py'
+
                 
                 sleep(time: 10, unit: 'SECONDS')   // give time to start
             }
