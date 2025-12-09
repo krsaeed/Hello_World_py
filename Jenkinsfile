@@ -32,7 +32,7 @@ pipeline {
             steps {
                 echo "Starting Flask app with waitress ..."
                 bat '''
-                netstat -ano | findstr :5000 > port5000.txt
+                cmd /c "netstat -ano | findstr :5000 > port5000.txt || exit /b 0"
                 '''
 
                 // Start Waitress server FOREGROUND for 10 seconds only
