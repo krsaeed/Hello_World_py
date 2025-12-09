@@ -31,17 +31,14 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo "Starting Flask app with waitress ..."
-                //bat "start cmd /c \"%PYTHON%\" app.py"
-                //bat "start \"FlaskApp\" \"%PYTHON%\" app.py"
-                // Kill any process already running on port 5000
                 bat '''
-                C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command "Get-NetTCPConnection -LocalPort 5000 -State Listen -ErrorAction SilentlyContinue | ForEach-Object { Stop-Process -Id $_.OwningProcess -Force }"
+                powershell -Command "Get-NetTCPConnection -LocalPort 5000 -State Listen -ErrorAction SilentlyContinue | ForEach-Object { Stop-Process -Id $_.OwningProcess -Force }"
                 '''
 
-                // Start Waitress in background
+                // Start Waitress server FOREGROUND for 10 seconds only
                 bat '''
-                start "" cmd /c "C:\\Python\\python.exe app.py"
-                '''
+                C:\\Python\\python.exe -m waitress --host=0.0.0.0 --port=5000 app:app
+                ''' &
                 
                 sleep(time: 10, unit: 'SECONDS')   // give time to start
             }
