@@ -17,7 +17,8 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 bat "\"%PYTHON%\" -m pip install --upgrade pip"
-                bat "\"%PYTHON%\" -m pip install -r requirements.txt"
+                bat "\"%PIP%\" install -r requirements.txt"
+                bat "\"%PIP%\" install waitress"
             }
         }
 
@@ -29,30 +30,21 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                echo "Starting Flask app..."
+                echo "Starting Flask app with waitress ..."
                 //bat "start cmd /c \"%PYTHON%\" app.py"
-                bat "start \"FlaskApp\" \"%PYTHON%\" app.py"
+                //bat "start \"FlaskApp\" \"%PYTHON%\" app.py"
+                // Kill any process already running on port 5000
+                bat "for /f \"tokens=5\" %a in ('netstat -ano ^| findstr :5000') do taskkill /PID %a /F"
+
+                // Start Waitress in background
+                bat "start \"FlaskApp\" /B cmd /c \"%PYTHON%\" -m waitress --host=0.0.0.0 --port=5000 app:app"
+                
                 sleep(time: 10, unit: 'SECONDS')   // give time to start
             }
         }
-        stage('Debug') {
+        stage('Verify Server') {
             steps {
-                bat "dir /s"
-            }
-        }
-        stage('Check Server') {
-            steps {
-                script {
-                    def result = bat(
-                        script: "netstat -ano | findstr :5000",
-                        returnStatus: true
-                    )
-                    if (result != 0) {
-                        echo "WARNING: Server not found on port 5000 yet, but NOT failing pipeline."
-                    } else {
-                        echo "Server detected on port 5000. Deployment successful!"
-                    }
-                }
+                bat "netstat -ano | findstr :5000"
             }
         }
     }
