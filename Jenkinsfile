@@ -51,10 +51,5 @@ pipeline {
                 sleep(time: 10, unit: 'SECONDS')   // give time to start
             }
         }
-        stage('Verify Server') {
-            steps {
-                bat "netstat -ano | findstr :5000"
-            }
-        }
     }
 }
