@@ -35,7 +35,7 @@ pipeline {
                 //bat "start \"FlaskApp\" \"%PYTHON%\" app.py"
                 // Kill any process already running on port 5000
                 bat '''
-                C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell -Command "Get-NetTCPConnection -LocalPort 5000 -State Listen | ForEach-Object { Stop-Process -Id $_.OwningProcess -Force }"
+                C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -Command "Get-NetTCPConnection -LocalPort 5000 -State Listen -ErrorAction SilentlyContinue | ForEach-Object { Stop-Process -Id $_.OwningProcess -Force }"
                 '''
 
                 // Start Waitress in background
