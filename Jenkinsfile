@@ -32,7 +32,7 @@ pipeline {
             steps {
                 echo "Starting Flask app with waitress ..."
                 bat '''
-                powershell -Command "Get-NetTCPConnection -LocalPort 5000 -State Listen -ErrorAction SilentlyContinue | ForEach-Object { Stop-Process -Id $_.OwningProcess -Force }"
+                "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "Get-NetTCPConnection -LocalPort 5000 -State Listen -ErrorAction SilentlyContinue | ForEach-Object { Stop-Process -Id \$_.OwningProcess -Force }"
                 '''
 
                 // Start Waitress server FOREGROUND for 10 seconds only
