@@ -40,7 +40,7 @@ pipeline {
 
                 // Start Waitress in background
                 bat '''
-                start "" /B C:\\Python\\python.exe app.py
+                start "" cmd /c "C:\\Python\\python.exe app.py"
                 '''
                 
                 sleep(time: 10, unit: 'SECONDS')   // give time to start
