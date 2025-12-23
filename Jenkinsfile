@@ -2,53 +2,41 @@ pipeline {
     agent any
 
     environment {
-        PYTHON_HOME = "C:\\Python"
-        PYTHON = "C:\\Python\\python.exe"
-        PIP = "C:\\Python\\Scripts\\pip.exe"
+        IMAGE = "hello-world-py"
+        CONTAINER = "hello_world_app"
     }
 
     stages {
-        stage('Clone Repository') {
+        stage('Clone Repo') {
             steps {
                 git branch: 'main', url: 'https://github.com/krsaeed/Hello_World_py.git'
             }
         }
 
-        stage('Install Dependencies') {
+        stage('Build Docker Image') {
             steps {
-                bat "\"%PYTHON%\" -m pip install --upgrade pip"
-                bat "\"%PIP%\" install -r requirements.txt"
-                bat "\"%PIP%\" install waitress"
+                sh 'docker build -t $IMAGE:latest .'
             }
         }
 
-        stage('Run Tests') {
+        stage('Stop Old Container') {
             steps {
-                bat "\"%PYTHON%\" -m pytest || exit /b 0"
+                sh '''
+                docker stop $CONTAINER || true
+                docker rm $CONTAINER || true
+                '''
             }
         }
 
-        stage('Deploy') {
+        stage('Run New Container') {
             steps {
-                echo "Starting Flask app with waitress ..."
-                bat '''
-                cmd /c "netstat -ano | findstr :5000 > port5000.txt || exit /b 0"
-                '''
+                sh 'docker run -d -p 5000:5000 --name $CONTAINER $IMAGE:latest'
+            }
+        }
 
-                // Start Waitress server FOREGROUND for 10 seconds only
-                bat '''
-                for /f "tokens=5" %%p in (port5000.txt) do (
-                echo Killing PID %%p
-                taskkill /F /PID %%p
-                )
-                del port5000.txt
-                '''
-
-                echo "Starting Flask + Waitress..."
-                bat 'start "" /B C:\\Python\\python.exe app.py'
-
-                
-                sleep(time: 10, unit: 'SECONDS')   // give time to start
+        stage('Verify') {
+            steps {
+                sh 'docker ps | grep $CONTAINER'
             }
         }
     }
