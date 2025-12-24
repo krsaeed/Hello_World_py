@@ -7,11 +7,6 @@ pipeline {
     }
 
     stages {
-        stage('Clone Repo') {
-            steps {
-                git branch: 'main', url: 'https://github.com/krsaeed/Hello_World_py.git'
-            }
-        }
 
         stage('Build Docker Image') {
             steps {
