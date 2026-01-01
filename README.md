@@ -56,6 +56,43 @@ http://EC2_IP:5000
 
 ---
 
+## 🛠️ Prerequisites
+
+Before starting this project, ensure you have the following tools and accounts ready.
+
+### 💻 Local Machine
+
+- **Windows 10 / 11**
+- **WSL2 (Ubuntu)** – recommended for Linux compatibility
+- **Git**
+- **Python 3.8+**
+- **Docker Desktop** (for local testing, optional)
+
+### ☁️ Cloud & Accounts
+
+- **GitHub Account**
+- **GitHub Personal Access Token (PAT)**
+- **AWS Account** (or Pluralsight AWS Sandbox)
+
+### 🖥️ AWS EC2 Environment
+
+- Ubuntu 22.04 EC2 instance
+- Open ports in Security Group:
+  - `22` – SSH
+  - `8080` – Jenkins
+  - `5000` – Application access
+
+### ⚙️ Software Installed on EC2
+
+Installed during setup:
+
+- **OpenJDK 17** (Jenkins requirement)
+- **Jenkins**
+- **Docker**
+- **Git**
+
+---
+
 ## 🖥️ Local Development (Windows – No Docker)
 
 ```bash
@@ -271,17 +308,7 @@ http://<EC2_PUBLIC_IP>:5000
 * Jenkins service conflicts on Windows vs WSL
 * Docker port binding issues (`port already allocated`)
 * EC2 Security Groups control public access
-* Sandbox EC2 is **temporary**
-
----
-
-## ⚠️ Sandbox Note
-
-> When AWS / Pluralsight sandbox expires:
-
-* EC2 is terminated
-* Jenkins, Docker, app → **gone**
-* Setup must be rebuilt
+* AWS Sandbox EC2 is **temporary**
 
 ---
 
@@ -299,17 +326,3 @@ http://<EC2_PUBLIC_IP>:5000
 
 **Khalilur Rahman Saeed**
 Learning DevOps step-by-step through real projects 🚀
-
-```
-
----
-
-If you want next, I can:
-- 🔥 Create a **“Rebuild in 20 minutes” checklist**
-- 🎯 Make this **resume & interview ready**
-- 📦 Convert to **Docker Compose**
-- ☁️ Add **AWS ECR + ECS version**
-
-Just tell me 👍
-```
-
