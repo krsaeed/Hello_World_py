@@ -92,7 +92,6 @@ Installed during setup:
 - **Git**
 
 ---
-
 ## 🖥️ Local Development (Windows – No Docker)
 
 ```bash
