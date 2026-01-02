@@ -300,6 +300,12 @@ http://<EC2_PUBLIC_IP>:5000
 
 ---
 
+## 📸 Website Output
+
+![Static Website Output](screenshots/website-output.png)
+
+---
+
 ## 🧠 Key Learnings
 
 * Windows → WSL → Linux differences
