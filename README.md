@@ -302,7 +302,7 @@ http://<EC2_PUBLIC_IP>:5000
 
 ## 📸 Website Output
 
-![Static Website Output](screenshots/website-output.png)
+![Static Website Output](screenshots/Python-CICD-website-output.png)
 
 ---
 
